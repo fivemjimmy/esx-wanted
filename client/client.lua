@@ -81,10 +81,10 @@ AddEventHandler("esx-wanted:openui", function(name, time, id, reason)
 			id = id,
 			lydo = reason,
 			h = h,
-			m = thoigian,
+			m = time,
 		}
 	)
-	Citizen.Wait(60000)			---Wait 60s and close UI
+	Citizen.Wait(30000)			---Wait 30s and close UI
 	SendNUIMessage(
 		{
 			display = false,
@@ -184,6 +184,7 @@ end
 -----COMMAND-----
 
 RegisterCommand("wantedmenu", function(source, args)
+	--OpenWantedMenu()
 	if PlayerData.job.name == "police" then
 		OpenWantedMenu()
 	else
@@ -214,10 +215,10 @@ function OpenWantedMenu()
             		title = "Player ID"
           		},
           	function(data2, menu2)
-            	local targetId = tonumber(data2.value)
+				local targetId = tonumber(data2.value)
             	if targetId == nil then
 					ESX.ShowNotification("You have not entered the player id")
-				elseif GetPlayerFromServerId(targetId) == 0 then 
+				elseif GetPlayerFromServerId(targetId) == -1 then 
 					ESX.ShowNotification("Invalid ID")
             	else
               		menu2.close()

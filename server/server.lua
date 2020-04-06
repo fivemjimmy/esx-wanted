@@ -64,7 +64,7 @@ RegisterServerEvent("esx-wanted:wantedPlayer")
 AddEventHandler("esx-wanted:wantedPlayer", function(targetSrc, wantedTime, wantedReason)
 	local src = source
 	local targetSrc = tonumber(targetSrc)
-	TriggerClientEvent("esx-wanted:gethead", targetSrc, targetSrc)	
+	TriggerClientEvent("esx-wanted:getMugshot", targetSrc, targetSrc)	
 	WantedPlayer(targetSrc, wantedTime, wantedReason)
 end)
 

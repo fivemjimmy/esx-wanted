@@ -9,8 +9,7 @@ $(document).ready(function() {
 			$('#ten').html('Name :' + event.data.ten);
 			$('#id').html('ID :' + event.data.id);
 			$('#lydo').html('Reason:' + event.data.lydo);			
-			$('#m').html('Time :' +event.data.m+ ' min');						
-			start();			
+			$('#m').html('Time :' +event.data.m+ ' min');									
 		}else if (event.data.display == false){
 			$(".hud").fadeOut();
 		};		
