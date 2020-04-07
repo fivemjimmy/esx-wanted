@@ -17,7 +17,7 @@ end)
 
 RegisterCommand("wanted", function(src, args, raw)
 	local xPlayer = ESX.GetPlayerFromId(src)
-	if xPlayer["job"]["name"] == "police" then
+	if xPlayer["job"]["name"] == Config.Job then
 		local wantedPlayer = args[1]
 		local wantedTime = tonumber(args[2])
 		local wantedReason = args[3]
@@ -46,7 +46,7 @@ RegisterCommand("unwanted", function(src, args)
 
 	local xPlayer = ESX.GetPlayerFromId(src)
 
-	if xPlayer["job"]["name"] == "police" then
+	if xPlayer["job"]["name"] == Config.Job then
 
 		local wantedPlayer = args[1]
 

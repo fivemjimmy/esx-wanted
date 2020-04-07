@@ -84,7 +84,7 @@ AddEventHandler("esx-wanted:openui", function(name, time, id, reason)
 			m = time,
 		}
 	)
-	Citizen.Wait(30000)			---Wait 30s and close UI
+	Citizen.Wait(Config.UIDelayTime)			---Wait 30s and close UI
 	SendNUIMessage(
 		{
 			display = false,
@@ -155,29 +155,43 @@ end)
 
 function InWanted()
 	Citizen.CreateThread(function()
-		while wantedTime > 0  do
-			local playerPed = PlayerPedId()
-			local PedPosition = GetEntityCoords(playerPed)
-			TriggerServerEvent("esx-wanted:location", PedPosition)
-			Wait(15000)
-			local PedPosition = GetEntityCoords(playerPed)
-			TriggerServerEvent("esx-wanted:location", PedPosition)
-			Wait(15000)
-			local PedPosition = GetEntityCoords(playerPed)
-			TriggerServerEvent("esx-wanted:location", PedPosition)
-			Wait(15000)
-			local PedPosition = GetEntityCoords(playerPed)
-			TriggerServerEvent("esx-wanted:location", PedPosition)
-			Wait(15000)
-			local PedPosition = GetEntityCoords(playerPed)
-			TriggerServerEvent("esx-wanted:location", PedPosition)
-			wantedTime = wantedTime - 1
-			if wantedTime == 0 then
-				UnWanted()
-				TriggerServerEvent("esx-wanted:updateWantedTime", 0)
-			end			
-			TriggerServerEvent("esx-wanted:updateWantedTime", wantedTime)
-		end		
+		if Config.UseGPSTracker then
+			while wantedTime > 0  do
+				local playerPed = PlayerPedId()
+				local PedPosition = GetEntityCoords(playerPed)
+				TriggerServerEvent("esx-wanted:location", PedPosition)
+				Wait(15000)
+				local PedPosition = GetEntityCoords(playerPed)
+				TriggerServerEvent("esx-wanted:location", PedPosition)
+				Wait(15000)
+				local PedPosition = GetEntityCoords(playerPed)
+				TriggerServerEvent("esx-wanted:location", PedPosition)
+				Wait(15000)
+				local PedPosition = GetEntityCoords(playerPed)
+				TriggerServerEvent("esx-wanted:location", PedPosition)
+				Wait(15000)
+				local PedPosition = GetEntityCoords(playerPed)
+				TriggerServerEvent("esx-wanted:location", PedPosition)
+				wantedTime = wantedTime - 1
+				if wantedTime == 0 then
+					UnWanted()
+					TriggerServerEvent("esx-wanted:updateWantedTime", 0)
+				end			
+				TriggerServerEvent("esx-wanted:updateWantedTime", wantedTime)
+			end		
+		else 
+			while wantedTime > 0  do
+				local playerPed = PlayerPedId()
+				local PedPosition = GetEntityCoords(playerPed)
+				Wait(60000)
+				wantedTime = wantedTime - 1
+				if wantedTime == 0 then
+					UnWanted()
+					TriggerServerEvent("esx-wanted:updateWantedTime", 0)
+				end			
+				TriggerServerEvent("esx-wanted:updateWantedTime", wantedTime)
+			end	
+		end	
 	end)
 end
 
@@ -185,7 +199,7 @@ end
 
 RegisterCommand("wantedmenu", function(source, args)
 	--OpenWantedMenu()
-	if PlayerData.job.name == "police" then
+	if PlayerData.job.name == Config.Job then
 		OpenWantedMenu()
 	else
 		ESX.ShowNotification("you/'re not POLICE!")
